@@ -1,0 +1,33 @@
+name: Automated Sidewalk Data Update
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"  # Runs every Monday at 5am UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  initial_run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run store_parcel_data.py on first run
+        run: |
+          if [ ! -f .parcel_path ] || [ "$(cat .parcel_path)" != "$(cat store_parcel_data.py | grep CSV_PARCEL_PATH | cut -d'=' -f2 | tr -d ' \"')" ]; then
+            python store_parcel_data.py
+            cat store_parcel_data.py | grep CSV_PARCEL_PATH | cut -d'=' -f2 | tr -d ' \"' > .parcel_path
+          fi
+
+  weekly_run:
+    runs-on: ubuntu-latest
+    needs: initial_run
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run fetch_sidewalk_data.py
+        run: python fetch_sidewalk_data.py
+      
+      - name: Run update_latlong_store_old.py
+        run: python update_latlong_store_old.py
