@@ -29,6 +29,11 @@ jobs:
             python store_parcel_data.py
             cat store_parcel_data.py | grep CSV_PARCEL_PATH | cut -d'=' -f2 | tr -d ' \"' > .parcel_path
           fi
+      - name: Upload database as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sidewalk-data
+          path: sidewalk_data.sqlite  # Upload the database file as an artifact
 
   weekly_run:
     runs-on: ubuntu-latest
