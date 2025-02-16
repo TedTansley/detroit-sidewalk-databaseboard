@@ -53,3 +53,16 @@ jobs:
       
       - name: Run update_latlong_store_old.py
         run: python update_latlong_store_old.py
+
+      - name: Configure Git for GitHub Actions
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Commit updated database
+        run: |
+          git add sidewalk_data.sqlite  # Add the database to staging
+          git commit -m "Update sidewalk_data.sqlite"  # Commit with a message
+          git push  # Push the changes back to the repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This allows push access
