@@ -56,7 +56,6 @@ if __name__ == "__main__":
     #normalize values (make all lower case) update creationdate to creation_date
     sidewalk_df.rename(columns={'CreationDate': 'creation_date', 'Tree_Gaurantee': 'tree_guarantee'}, inplace=True)
     sidewalk_df['address'] = sidewalk_df['address'].str.lower()
-    sidewalk_df['tree_guarantee'] = sidewalk_df['Tree_Gaurantee']
 
     #address NaN values
     sidewalk_df.fillna({'tree_guarantee': 'none reported', 'inspect_date': 'none reported'}, inplace=True)
