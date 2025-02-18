@@ -1,0 +1,27 @@
+name: Publish Quarto Dashboard to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # This triggers the action when you push to the main branch
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest  # This will run on an Ubuntu server
+
+    steps:
+      # Step 1: Check out your code
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Quarto
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # Step 3: Render and publish the dashboard to GitHub Pages
+      - name: Render and Publish Dashboard
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages  # We are publishing to the 'gh-pages' branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This allows GitHub Actions to write to your repo
