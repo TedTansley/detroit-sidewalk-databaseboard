@@ -1,0 +1,2 @@
+project:
+  type: website  # or "book", "manuscript", or "article"
