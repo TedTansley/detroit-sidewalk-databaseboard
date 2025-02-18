@@ -11,18 +11,40 @@ DB_PATH = "sidewalk_data.sqlite"
 def fetch_sidewalk_data():
     """Fetch sidewalk data from ArcGIS REST API and return as a DataFrame."""
     params = {
-        "where": "1=1",  # Fetch all records
-        "outFields": "*",
-        "f": "json"
+        "f": "json",
+        "where": "1=1",
+        "returnGeometry": "true",
+        "spatialRel": "esriSpatialRelIntersects",
+        "geometryType": "esriGeometryEnvelope",
+        "geometry": None,  # Specify geometry if needed
+        "inSR": "102100",
+        "outFields": "*",  # Fetch all fields
+        "orderByFields": "objectid ASC",
+        "outSR": "102100",
+        "resultRecordCount": 1000,  # Records per request
     }
+    all_data = []
+    offset = 0
 
-    response = requests.get(ARCGIS_URL, params=params)
-    data = response.json()
+    # Loop to fetch data and handle pagination
+    while True:
+        params["resultOffset"] = offset
+        response = requests.get(ARCGIS_URL, params=params)
 
-    features = data.get("features", [])
-    records = [feature["attributes"] for feature in features]
+        if response.status_code == 200:
+            data = response.json()
+            if "features" in data and len(data["features"]) > 0:
+                for feature in data["features"]:
+                    attributes = feature["attributes"]
+                    all_data.append(attributes)
+                offset += len(data["features"])  # Increment offset
+            else:
+                break  # No more records
+        else:
+            print(f"Failed to fetch data. HTTP Status Code: {response.status_code}")
+            break
 
-    return pd.DataFrame(records)
+    return pd.DataFrame(all_data)
 
 def store_sidewalk_data(df):
     """Store sidewalk data in the SQLite database."""
