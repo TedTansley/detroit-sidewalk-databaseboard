@@ -63,6 +63,9 @@ jobs:
       - name: Run update_latlong_store_old.py
         run: python update_latlong_store_old.py
 
+      - name: Run streamlit_dashboard.py
+        run: streamlit_dashboard.py
+
       - name: Configure Git for GitHub Actions
         run: |
           git config --global user.name "GitHub Actions"
