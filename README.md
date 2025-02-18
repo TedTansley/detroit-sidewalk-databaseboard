@@ -15,3 +15,4 @@ Repository to store and visualize the Detroit sidewalk data from their ArcGIS se
   - Stores the differences into a new SQL table
 
 ## Dashboard Setup
+https://detroit-sidewalk-dashboard.streamlit.app/
