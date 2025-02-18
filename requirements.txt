@@ -6,3 +6,4 @@ geopandas
 requests
 matplotlib
 seaborn
+streamlit_folium 
