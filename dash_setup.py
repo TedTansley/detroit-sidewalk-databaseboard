@@ -20,12 +20,7 @@ from folium.map import MacroElement
 import requests
 
 df = pd.read_sql_query("SELECT * FROM merged_parcel_sidewalk", conn)
-# Quick summary
-print(df.info())  # Provides data types and missing values
-print(df.describe())  # Statistical summary of numerical columns
-print(df.head())  # Shows the first few rows
-print(df.nunique())  # Unique values per column
-print(df.isnull().sum())  # Missing values per column
+
 
 # Set font properties globally
 #plt.rcParams['font.family'] = 'Montserrat'  # Choose your desired font family (e.g., 'Arial', 'Times New Roman', etc.)
