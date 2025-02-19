@@ -63,6 +63,9 @@ jobs:
       - name: Run update_latlong_store_old.py
         run: python update_latlong_store_old.py
 
+      - name: Run dash_setup.py
+        run: dash_setup.py
+
       - name: Run streamlit_dashboard.py
         run: streamlit_dashboard.py
 
