@@ -64,10 +64,10 @@ jobs:
         run: python update_latlong_store_old.py
 
       - name: Run dash_setup.py
-        run: dash_setup.py
+        run: python dash_setup.py
 
       - name: Run streamlit_dashboard.py
-        run: streamlit_dashboard.py
+        run: python streamlit_dashboard.py
 
       - name: Configure Git for GitHub Actions
         run: |
