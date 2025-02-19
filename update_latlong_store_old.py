@@ -21,13 +21,8 @@ def update_parcel_with_manual_latlong():
         # Load and merge manual latitude/longitude data
         if os.path.exists(CSV_MANUAL_LATLONG_PATH):
             manual_latlong_df = pd.read_csv(CSV_MANUAL_LATLONG_PATH)
-            parcel_df = parcel_df.merge(manual_latlong_df, on="address", how="left")
-
-            # Use new lat/long where available
-            parcel_df["latitude"] = parcel_df["latitude_x"].combine_first(parcel_df["latitude_y"])
-            parcel_df["longitude"] = parcel_df["longitude_x"].combine_first(parcel_df["longitude_y"])
-            parcel_df = parcel_df.drop(columns=["latitude_x", "latitude_y", "longitude_x", "longitude_y"])
-
+            parcel_df = pd.concat([parcel_df, manual_latlong_df], ignore_index=True)
+        
         # Merge updated parcel data with sidewalk reports
         merged_df = sidewalk_df.merge(parcel_df, on="address", how="left")
 
