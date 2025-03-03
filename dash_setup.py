@@ -175,7 +175,7 @@ def get_change_log(db_path, start_date=None, end_date=None):
     """
     conn = sqlite3.connect(db_path)
     query = """
-        SELECT change_id, parcel_id, sidewalk_condition, change_date, change_type 
+        SELECT * 
         FROM merged_parcel_sidewalk_changes
     """
     
