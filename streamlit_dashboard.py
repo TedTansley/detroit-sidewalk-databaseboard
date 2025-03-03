@@ -40,3 +40,22 @@ elif page == "Map":
     
     # Display Folium map in Streamlit
     folium_static(folium_map)
+
+
+# Change Log
+elif page == "Change Log":
+    st.subheader("Sidewalk Issues Change Log")
+    db_path = "sidewalk_data.sqlite"  # Update with your actual database path\
+    # Date filters
+    start_date = st.date_input("Start Date")
+    end_date = st.date_input("End Date")
+    # Convert dates to string format for filtering
+    start_date = start_date.strftime("%Y-%m-%d") if start_date else None
+    end_date = end_date.strftime("%Y-%m-%d") if end_date else None
+    # Fetch and display the change log
+    df = dash_setup.get_change_log(db_path, start_date, end_date)
+    
+    if df.empty:
+         st.warning("No changes found for the selected date range.")
+    else:
+         st.dataframe(df)
