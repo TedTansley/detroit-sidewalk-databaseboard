@@ -45,7 +45,7 @@ elif page == "Map":
 # Change Log
 elif page == "Change Log":
     st.subheader("Sidewalk Issues Change Log")
-    db_path = "sidewalk_data.sqlite"  # Update with your actual database path\
+    db_path = "sidewalk_data.sqlite"  
     # Date filters
     start_date = st.date_input("Start Date")
     end_date = st.date_input("End Date")
