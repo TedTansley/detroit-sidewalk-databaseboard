@@ -167,3 +167,27 @@ def map_sidewalk_data(df):
     # Display the map
     return m
 
+
+def get_change_log(db_path, start_date=None, end_date=None):
+    """
+    Fetch change log data from the merged_parcel_sidewalk_changes table.
+    Allows optional filtering by date range.
+    """
+    conn = sqlite3.connect(db_path)
+    query = """
+        SELECT change_id, parcel_id, sidewalk_condition, change_date, change_type 
+        FROM merged_parcel_sidewalk_changes
+    """
+    
+    df = pd.read_sql(query, conn)
+    conn.close()
+    
+    # Convert change_date to datetime for filtering
+    df['change_date'] = pd.to_datetime(df['change_date'])
+    
+    if start_date:
+        df = df[df['change_date'] >= pd.to_datetime(start_date)]
+    if end_date:
+        df = df[df['change_date'] <= pd.to_datetime(end_date)]
+    
+    return df
